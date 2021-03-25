@@ -105,7 +105,7 @@ a=fmtp:96 media=video; clock-rate=90000; encoding-name=JPEG;
 ```
 
 ### SERVER, two cameras
-![放弃](https://superuser.com/questions/1401962/gstreaming-two-web-cams-over-tcp)
+[放弃](https://superuser.com/questions/1401962/gstreaming-two-web-cams-over-tcp)
 
 ### Client, two cameras
 ```bash
