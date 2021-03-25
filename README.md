@@ -43,24 +43,6 @@ gst-launch-1.0 v4l2src device=/dev/video2 ! "image/jpeg, width=1920, height=1080
 ### Server, jpeg  
 ```bash
 gst-launch-1.0  v4l2src device=/dev/video0 ! image/jpeg,width=1280,height=720,type=video,framerate=30/1 ! jpegdec ! videoscale ! videoconvert ! x264enc ! rtph264pay ! udpsink host=192.168.31.99 port=5600
-
-gst-launch-1.0 \
-    v4l2src device=/dev/video0 \
-    ! "image/jpeg, width=640, height=480,type=video,framerate=30/1" \
-    ! rtpjpegpay  pt=96 \
-    ! udpsink host=192.168.31.99 port=5600 \
-    v4l2src device=/dev/video2 \
-    ! "image/jpeg, width=640, height=480,type=video,framerate=30/1" \
-    ! rtpjpegpay  pt=96 \
-    ! udpsink host=192.168.31.99 port=5602
-
-$ crontab -e
-@reboot  /home/ubuntu/two_camera.sh
-
-$ systemctl edit getty@tty1
-[Service]
-ExecStart=
-ExecStart=-/usr/bin/agetty --autologin ubuntu --noclear %I $TERM
 ```
 
 ### Server, flip, time
@@ -105,7 +87,25 @@ a=fmtp:96 media=video; clock-rate=90000; encoding-name=JPEG;
 ```
 
 ### SERVER, two cameras
-[放弃](https://superuser.com/questions/1401962/gstreaming-two-web-cams-over-tcp)
+```
+gst-launch-1.0 \
+    v4l2src device=/dev/video0 \
+    ! "image/jpeg, width=640, height=480,type=video,framerate=30/1" \
+    ! rtpjpegpay  pt=96 \
+    ! udpsink host=192.168.31.99 port=5600 \
+    v4l2src device=/dev/video2 \
+    ! "image/jpeg, width=640, height=480,type=video,framerate=30/1" \
+    ! rtpjpegpay  pt=96 \
+    ! udpsink host=192.168.31.99 port=5602
+
+$ crontab -e
+@reboot  /home/ubuntu/two_camera.sh
+
+$ systemctl edit getty@tty1
+[Service]
+ExecStart=
+ExecStart=-/usr/bin/agetty --autologin ubuntu --noclear %I $TERM
+```
 
 ### Client, two cameras
 ```bash
