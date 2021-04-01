@@ -9,14 +9,24 @@ nmap -sP 192.168.31.1/24
 
 ### check if communicate with camera
 ```bash
+ls /dev/video*
 sudo apt install v4l-utils
 v4l2-ctl --list-formats-ext --all -d0
 bash -c '.....................................'
 ```
 
-### check the device 
+### Autologin
 ```bash
-ls /dev/video*
+$ cat /usr/share/lightdm/lightdm.conf.d/50-ubuntu-mate.conf
+[Seat:*]
+user-session=mate
+autologin-user=gyb
+autologin-user-timeout=0
+
+
+$ sudo nano /etc/systemd/system/getty.target.wants/getty@tty1.service
+[Service]
+ExecStart=-/usr/bin/agetty --autologin ubuntu --noclear %I $TERM
 ```
 
 ### install, test doc
@@ -104,10 +114,6 @@ gst-launch-1.0 \
 
 $ crontab -e
 @reboot  /home/ubuntu/two_camera.sh
-
-$ sudo nano /etc/systemd/system/getty.target.wants/getty@tty1.service
-[Service]
-ExecStart=-/usr/bin/agetty --autologin ubuntu --noclear %I $TERM
 ```
 
 ### Client, two cameras
