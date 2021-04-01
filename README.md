@@ -12,7 +12,13 @@ nmap -sP 192.168.31.1/24
 ls /dev/video*
 sudo apt install v4l-utils
 v4l2-ctl --list-formats-ext --all -d0
-bash -c '.....................................'
+bash -c 'gst-launch-1.0 v4l2src device=/dev/video0 \
+            ! "image/jpeg, width=1280, height=720,type=video,framerate=30/1" \
+            ! jpegdec ! videoflip method=none \
+            ! timeoverlay halignment=right valignment=bottom \
+            ! clockoverlay halignment=left valignment=bottom time-format="%Y/%m/%d %H:%M:%S" \
+            ! jpegenc  ! rtpjpegpay ! queue \
+            ! udpsink host=192.168.31.99 port=5600'
 ```
 
 ### Autologin
