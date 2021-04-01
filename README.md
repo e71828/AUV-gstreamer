@@ -54,6 +54,10 @@ gst-launch-1.0 -v videotestsrc pattern=ball ! video/x-raw,width=640,height=480 !
 gst-launch-1.0 -v v4l2src device=/dev/video2 ! image/jpeg,width=1280,height=720,type=video,framerate=30/1 ! jpegdec ! autovideosink
 
 gst-launch-1.0 v4l2src device=/dev/video2 ! "image/jpeg, width=1920, height=1080" ! jpegdec ! autovideosink
+
+gst-launch-1.0 v4l2src device=/dev/video0 ! "video/x-raw, width=1280,height=720,type=video,framerate=30/1" ! videoconvert ! autovideosink sync=false
+
+gst-launch-1.0 v4l2src device=/dev/video0 ! "video/x-raw, format=YUY2,width=640,height=480,type=video,framerate=30/1" ! videoconvert ! autovideosink sync=false
 ```
 
 ### Server, jpeg  
