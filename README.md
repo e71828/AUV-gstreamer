@@ -74,6 +74,10 @@ gst-launch-1.0 udpsrc port=5600 ! application/x-rtp, media=video, clock-rate=900
 gst-launch-1.0 udpsrc port=5602 ! application/x-rtp,encoding-name=JPEG,clock-rate=90000,payload=26 ! rtpjpegdepay ! jpegdec ! autovideosink fps-update-interval=1000 sync=false
 ```
 
+#### play and save
+```bash
+gst-launch-1.0 -e udpsrc port=5600 ! application/x-rtp,encoding-name=JPEG,clock-rate=90000,payload=26 ! rtpjpegdepay ! jpegdec ! videoconvert ! tee name=splitter ! queue ! autovideosink sync=false splitter. ! queue ! x264enc pass=quant ! matroskamux ! filesink location=video_l_$(date +"%Y-%m-%d_%H-%M").mkv
+```
 ### VLC Receiver
 ```bash
 $ cat test.sdp
@@ -101,9 +105,8 @@ gst-launch-1.0 \
 $ crontab -e
 @reboot  /home/ubuntu/two_camera.sh
 
-$ systemctl edit getty@tty1
+$ sudo nano /etc/systemd/system/getty.target.wants/getty@tty1.service
 [Service]
-ExecStart=
 ExecStart=-/usr/bin/agetty --autologin ubuntu --noclear %I $TERM
 ```
 
