@@ -30,8 +30,9 @@ autologin-user=gyb
 autologin-user-timeout=0
 
 
-$ sudo nano /etc/systemd/system/getty.target.wants/getty@tty1.service
+$ sudo systemctl edit getty@tty1.service
 [Service]
+ExecStart=
 ExecStart=-/usr/bin/agetty --autologin ubuntu --noclear %I $TERM
 ```
 
