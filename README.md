@@ -97,7 +97,7 @@ gst-launch-1.0 udpsrc port=5602 ! application/x-rtp,encoding-name=JPEG,clock-rat
 
 #### play and save
 ```bash
-gst-launch-1.0 -e udpsrc port=5600 ! application/x-rtp,encoding-name=JPEG,clock-rate=90000,payload=26 ! rtpjpegdepay ! jpegdec ! videoconvert ! tee name=splitter ! queue ! autovideosink sync=false splitter. ! queue ! x264enc pass=quant ! matroskamux ! filesink location=video_l_$(date +"%Y-%m-%d_%H-%M").mkv
+gst-launch-1.0 -e udpsrc port=5600 ! application/x-rtp,encoding-name=JPEG,payload=26 ! rtpjpegdepay ! jpegdec ! videoconvert ! tee name=splitter ! queue leaky=1 ! autovideosink splitter. ! queue ! x264enc pass=quant ! matroskamux ! filesink location=video.mkv
 ```
 ### VLC Receiver
 ```bash
