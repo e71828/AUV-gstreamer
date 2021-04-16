@@ -20,6 +20,13 @@ bash -c 'gst-launch-1.0 v4l2src device=/dev/video0 \
             ! jpegenc  ! rtpjpegpay ! queue \
             ! udpsink host=192.168.31.99 port=5600'
 ```
+### Kill process
+```bash
+$ fuser /dev/video0
+/dev/video0: 1871m
+$ ps axl | grep 1871
+$ kill -9 1871
+```
 
 ### Autologin
 ```bash
