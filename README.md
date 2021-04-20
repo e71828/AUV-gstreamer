@@ -104,6 +104,10 @@ gst-launch-1.0 udpsrc port=5602 ! application/x-rtp,encoding-name=JPEG,clock-rat
 
 #### play and save
 ```bash
+gst-launch-1.0 udpsrc port=5600 ! application/x-rtp,encoding-name=JPEG,clock-rate=90000,payload=26 ! rtpjpegdepay ! jpegdec ! videoconvert ! x264enc pass=quant ! matroskamux ! filesink location=video.mkv
+```
+
+```bash
 gst-launch-1.0 -e udpsrc port=5600 ! application/x-rtp,encoding-name=JPEG,payload=26 ! rtpjpegdepay ! jpegdec ! videoconvert ! tee name=splitter ! queue leaky=1 ! autovideosink splitter. ! queue ! x264enc pass=quant ! matroskamux ! filesink location=video.mkv
 ```
 ### VLC Receiver
@@ -154,6 +158,19 @@ udpsrc port=5602 \
     ! rtpjpegdepay ! jpegdec \
     ! mix.sink_2
 
+
+gst-launch-1.0 -e \
+    videotestsrc pattern="black" ! video/x-raw,width=1280,height=560 ! tee name=t0 \
+    udpsrc port=5600 ! application/x-rtp,encoding-name=JPEG,clock-rate=90000,payload=26 ! rtpjpegdepay ! jpegdec ! tee name=t1 \
+    udpsrc port=5602 ! application/x-rtp,encoding-name=JPEG,clock-rate=90000,payload=26 ! rtpjpegdepay ! jpegdec ! tee name=t2 \
+    videomixer name=mix \
+        sink_0::xpos=0   sink_0::ypos=0  sink_0::alpha=1 \
+        sink_1::xpos=0   sink_1::ypos=40 \
+        sink_2::xpos=640 sink_2::ypos=40 \
+    t0.  ! queue ! mix.sink_0 \
+    t1.  ! queue ! mix.sink_1 \
+    t2.  ! queue ! mix.sink_2 \
+    mix. ! queue ! videoconvert ! autovideosink sync=false 
 ```
 
 
