@@ -136,6 +136,7 @@ gst-launch-1.0 \
 
 $ crontab -e
 @reboot  /home/ubuntu/two_camera.sh
+@reboot sleep 60 && my_script.sh
 ```
 
 ### Client, two cameras
