@@ -1,5 +1,6 @@
 # Readme
-
+## password
+`HO!R55#55`
 ## gstreamer
 
 ### IP
