@@ -41,7 +41,7 @@ autologin-user-timeout=0
 $ sudo systemctl edit getty@tty1.service
 [Service]
 ExecStart=
-ExecStart=-/usr/bin/agetty --autologin ubuntu --noclear %I $TERM
+ExecStart=-/sbin/agetty --autologin ubuntu --noclear %I $TERM
 ```
 
 ### install, test doc
