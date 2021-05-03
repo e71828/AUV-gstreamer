@@ -68,8 +68,11 @@ gst-launch-1.0 v4l2src device=/dev/video0 ! "video/x-raw, width=1280,height=720,
 
 gst-launch-1.0 v4l2src device=/dev/video0 ! "video/x-raw, format=YUY2,width=640,height=480,type=video,framerate=30/1" ! videoconvert ! autovideosink sync=false
 ```
-
 ### Server, jpeg  
+```bash
+gst-launch-1.0 v4l2src device=/dev/video0 ! "image/jpeg, width=1920, height=1080,type=video,framerate=30/1" ! rtpjpegpay ! queue ! udpsink host=192.168.31.99 port=5600
+```
+### Server, h264  
 ```bash
 gst-launch-1.0  v4l2src device=/dev/video0 ! image/jpeg,width=1280,height=720,type=video,framerate=30/1 ! jpegdec ! videoscale ! videoconvert ! x264enc ! rtph264pay ! udpsink host=192.168.31.99 port=5600
 ```
@@ -100,7 +103,7 @@ gst-launch-1.0 udpsrc port=5600 ! application/x-rtp, media=video, clock-rate=900
 
 ### Client, jpeg
 ```bash
-gst-launch-1.0 udpsrc port=5602 ! application/x-rtp,encoding-name=JPEG,clock-rate=90000,payload=26 ! rtpjpegdepay ! jpegdec ! autovideosink fps-update-interval=1000 sync=false
+gst-launch-1.0 udpsrc port=5600 ! application/x-rtp,encoding-name=JPEG,clock-rate=90000,payload=26 ! rtpjpegdepay ! jpegdec ! autovideosink fps-update-interval=1000 sync=false
 ```
 
 #### play and save
