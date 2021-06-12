@@ -72,7 +72,11 @@ gst-launch-1.0 v4l2src device=/dev/video0 ! "video/x-raw, format=YUY2,width=640,
 ```bash
 gst-launch-1.0 v4l2src device=/dev/video0 ! "image/jpeg, width=1920, height=1080,type=video,framerate=30/1" ! rtpjpegpay ! queue ! udpsink host=192.168.31.99 port=5600
 ```
-### Server, h264  
+### [Server, h264](https://discuss.bluerobotics.com/t/about-usb-camera/499)
+
+```bash
+gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-h264,width=1280,height=720,framerate=30/1 ! h264parse ! rtph264pay ! udpsink host=192.168.31.99 port=5600
+```
 ```bash
 gst-launch-1.0  v4l2src device=/dev/video0 ! image/jpeg,width=1280,height=720,type=video,framerate=30/1 ! jpegdec ! videoscale ! videoconvert ! x264enc ! rtph264pay ! udpsink host=192.168.31.99 port=5600
 ```
