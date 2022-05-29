@@ -13,3 +13,6 @@ gst-launch-1.0 rtspsrc location=rtsp://192.168.31.249:8555/unicast ! rtph264depa
 gst-launch-1.0 rtspsrc location=rtsp://192.168.31.249:8555/unicast ! rtpjpegdepay ! jpegdec ! autovideosink fps-update-interval=1000 sync=false
 gst-launch-1.0 rtspsrc location=rtsp://192.168.31.249:8555/unicast ! rtpjpegdepay ! jpegdec ! x264enc pass=quant ! matroskamux ! filesink location=video.mkv
 ```
+
+##  port already in use
+`sudo fuser -k 8000/tcp` [ref](https://stackoverflow.com/questions/20239232/django-server-error-port-is-already-in-use)
